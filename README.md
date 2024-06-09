@@ -1,2 +1,2 @@
-# pi-omx-player
+# Raspberry Pi OMXPlayer
 Raspberry Pi OMXPlayer
