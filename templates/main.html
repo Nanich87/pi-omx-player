@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>TVPi</title>
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+   <!-- Bootstrap Font Icon CSS -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+   <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+         <a class="navbar-brand" href="#">TVPi</a>
+      </nav>
+      <div class="btn-group w-100" role="group" aria-label="Basic example">
+            <a href="/volume/increase" class="btn btn-success"><i class="bi bi-volume-up"></i> Volume Up</a>
+            <a href="/volume/decrease" class="btn btn-danger"><i class="bi bi-volume-down"></i> Volume Down</a>
+            <a href="/audio/previous" class="btn btn-info">Previous Audio</a>
+            <a href="/audio/next" class="btn btn-info">Next Audio</a>
+            <a href="/subtitle/previous" class="btn btn-warning">Previous Subtitles</a>
+            <a href="/subtitle/next" class="btn btn-warning">Next Subtitles</a>
+            <a href="/subtitle/show" class="btn btn-success">Show Subtitles</a>
+            <a href="/subtitle/hide" class="btn btn-danger">Hide Subtitles</a>
+      </div>
+      <div class="panel panel-info">
+         <div class="panel-heading">
+            <h2>Television</h2>
+         </div>
+         <div class="panel-body">
+            <table class="table fs-4">
+               <thead>
+                  <tr>
+                     <th scope="col">Type</th>
+                     <th scope="col">File</th>
+                     <th scope="col">Play</th>
+                     <th scope="col">Stop</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  {%for item in list%}
+                  <tr>
+                     <th scope="row"><i class="bi bi-file"></i></th>
+                     <td>{{ item }}</td>
+                     <td><a href="/play/{{ item }}"><i class="bi bi-play-circle"></i></a></td>
+                     <td><a href="/stop"><i class="bi bi-stop-circle"></i></a></td>
+                  </tr>
+                  {%endfor%}
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</body>
+
+</html>
