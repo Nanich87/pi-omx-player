@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="bg" data-bs-theme="dark">
 
 <head>
    <meta charset="utf-8">
@@ -64,36 +64,36 @@
          <div class="d-flex align-items-center gap-3 mb-3">
             <i class="bi bi-tv fs-3 text-primary"></i>
             <div class="now-playing flex-grow-1">
-               <div class="group-label mb-0">{{ 'Now playing' if current else 'TVPi' }}</div>
-               <div class="fw-semibold text-truncate">{{ current if current else 'Nothing is playing' }}</div>
+               <div class="group-label mb-0">{{ 'Сега върви' if current else 'TVPi' }}</div>
+               <div class="fw-semibold text-truncate">{{ current if current else 'Нищо не върви' }}</div>
             </div>
-            <a href="{{ url_for('stop') }}" class="btn btn-danger ctl{{ '' if current else ' disabled' }}" data-reload="1" title="Stop">
-               <i class="bi bi-stop-fill"></i><span class="d-none d-sm-inline ms-1">Stop</span>
+            <a href="{{ url_for('stop') }}" class="btn btn-danger ctl{{ '' if current else ' disabled' }}" data-reload="1" title="Стоп">
+               <i class="bi bi-stop-fill"></i><span class="d-none d-sm-inline ms-1">Стоп</span>
             </a>
          </div>
 
          <div class="row g-2">
             <div class="col-6 col-md-4">
-               <div class="group-label">Volume</div>
+               <div class="group-label">Звук</div>
                <div class="btn-group w-100">
-                  <a href="{{ url_for('down') }}" class="btn btn-outline-light ctl" title="Volume down"><i class="bi bi-volume-down-fill"></i></a>
-                  <a href="{{ url_for('up') }}" class="btn btn-outline-light ctl" title="Volume up"><i class="bi bi-volume-up-fill"></i></a>
+                  <a href="{{ url_for('down') }}" class="btn btn-outline-light ctl" title="По-тихо"><i class="bi bi-volume-down-fill"></i></a>
+                  <a href="{{ url_for('up') }}" class="btn btn-outline-light ctl" title="По-силно"><i class="bi bi-volume-up-fill"></i></a>
                </div>
             </div>
             <div class="col-6 col-md-4">
-               <div class="group-label">Audio track</div>
+               <div class="group-label">Аудио</div>
                <div class="btn-group w-100">
-                  <a href="{{ url_for('previousAudioStream') }}" class="btn btn-outline-info ctl" title="Previous audio track"><i class="bi bi-chevron-left"></i></a>
-                  <a href="{{ url_for('nextAudioStream') }}" class="btn btn-outline-info ctl" title="Next audio track"><i class="bi bi-chevron-right"></i></a>
+                  <a href="{{ url_for('previousAudioStream') }}" class="btn btn-outline-info ctl" title="Предишна аудио писта"><i class="bi bi-chevron-left"></i></a>
+                  <a href="{{ url_for('nextAudioStream') }}" class="btn btn-outline-info ctl" title="Следваща аудио писта"><i class="bi bi-chevron-right"></i></a>
                </div>
             </div>
             <div class="col-12 col-md-4">
-               <div class="group-label">Subtitles</div>
+               <div class="group-label">Субтитри</div>
                <div class="btn-group w-100">
-                  <a href="{{ url_for('previousSubtitleStream') }}" class="btn btn-outline-warning ctl" title="Previous subtitles"><i class="bi bi-chevron-left"></i></a>
-                  <a href="{{ url_for('showSubtitles') }}" class="btn btn-outline-warning ctl" title="Show subtitles"><i class="bi bi-badge-cc-fill"></i></a>
-                  <a href="{{ url_for('hideSubtitles') }}" class="btn btn-outline-warning ctl" title="Hide subtitles"><i class="bi bi-badge-cc"></i></a>
-                  <a href="{{ url_for('nextSubtitleStream') }}" class="btn btn-outline-warning ctl" title="Next subtitles"><i class="bi bi-chevron-right"></i></a>
+                  <a href="{{ url_for('previousSubtitleStream') }}" class="btn btn-outline-warning ctl" title="Предишни субтитри"><i class="bi bi-chevron-left"></i></a>
+                  <a href="{{ url_for('showSubtitles') }}" class="btn btn-outline-warning ctl" title="Покажи субтитрите"><i class="bi bi-badge-cc-fill"></i></a>
+                  <a href="{{ url_for('hideSubtitles') }}" class="btn btn-outline-warning ctl" title="Скрий субтитрите"><i class="bi bi-badge-cc"></i></a>
+                  <a href="{{ url_for('nextSubtitleStream') }}" class="btn btn-outline-warning ctl" title="Следващи субтитри"><i class="bi bi-chevron-right"></i></a>
                </div>
             </div>
          </div>
@@ -103,7 +103,7 @@
    <div class="container mt-3">
       <div class="input-group mb-3">
          <span class="input-group-text"><i class="bi bi-search"></i></span>
-         <input type="search" id="filter" class="form-control form-control-lg" placeholder="Search videos" autocomplete="off">
+         <input type="search" id="filter" class="form-control form-control-lg" placeholder="Търси видео" autocomplete="off">
       </div>
 
       {% set files = list | sort %}
@@ -117,9 +117,9 @@
          </a>
          {% endfor %}
       </div>
-      <p id="no-match" class="text-secondary text-center mt-4 d-none">No videos match your search.</p>
+      <p id="no-match" class="text-secondary text-center mt-4 d-none">Няма видеа, които да съвпадат с търсенето.</p>
       {% else %}
-      <p class="text-secondary text-center mt-5"><i class="bi bi-folder2-open fs-1 d-block mb-2"></i>No videos found.</p>
+      <p class="text-secondary text-center mt-5"><i class="bi bi-folder2-open fs-1 d-block mb-2"></i>Няма намерени видеа.</p>
       {% endif %}
    </div>
 
