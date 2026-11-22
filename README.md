@@ -24,7 +24,7 @@ Raspberry Pi е свързан към телевизора с HDMI и пуска
 
 - **Python 3** и **[Flask](https://flask.palletsprojects.com/)** за уеб сървъра.
 - **[omxplayer](https://github.com/popcornmix/omxplayer)** за хардуерно ускорено възпроизвеждане през HDMI. Приложението го управлява, като изпраща клавишите му (`+`, `-`, `j`, `k`, `m`, `q` и т.н.) към неговия стандартен вход.
-- **Jinja2** шаблон, **[Bootstrap 5](https://getbootstrap.com/)** и **[Bootstrap Icons](https://icons.getbootstrap.com/)** за интерфейса (зареждат се от CDN).
+- **Jinja2** шаблон, **[Bootstrap 5](https://getbootstrap.com/)** и **[Bootstrap Icons](https://icons.getbootstrap.com/)** за интерфейса. Те са включени в проекта (`static/vendor/`), така че приложението работи и без интернет.
 - Малко чист JavaScript за търсенето и за изпращане на командите на заден план.
 
 ## Изисквания

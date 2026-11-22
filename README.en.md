@@ -24,7 +24,7 @@ A home media center: you keep a folder of TV series or movies on the Raspberry P
 
 - **Python 3** and **[Flask](https://flask.palletsprojects.com/)** for the web server.
 - **[omxplayer](https://github.com/popcornmix/omxplayer)** for hardware-accelerated playback over HDMI. The app controls it by sending its keyboard shortcuts (`+`, `-`, `j`, `k`, `m`, `q`, etc.) to its standard input.
-- A **Jinja2** template, **[Bootstrap 5](https://getbootstrap.com/)** and **[Bootstrap Icons](https://icons.getbootstrap.com/)** for the interface (loaded from a CDN).
+- A **Jinja2** template, **[Bootstrap 5](https://getbootstrap.com/)** and **[Bootstrap Icons](https://icons.getbootstrap.com/)** for the interface. They are bundled with the project (`static/vendor/`), so the app works without internet access.
 - A little plain JavaScript for search and for sending commands in the background.
 
 ## Requirements
