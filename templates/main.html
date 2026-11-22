@@ -43,7 +43,7 @@
                   <tr>
                      <th scope="row"><i class="bi bi-file"></i></th>
                      <td>{{ item }}</td>
-                     <td><a href="/play/{{ item }}"><i class="bi bi-play-circle"></i></a></td>
+                     <td><a href="{{ url_for('play', file=item) }}"><i class="bi bi-play-circle"></i></a></td>
                      <td><a href="/stop"><i class="bi bi-stop-circle"></i></a></td>
                   </tr>
                   {%endfor%}

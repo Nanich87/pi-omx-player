@@ -1,12 +1,13 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 import subprocess
 import os
+import signal
 import datetime
 import time
 
 HOST = '0.0.0.0'
 PORT = 5000
-DEBUG = True
+DEBUG = False
 
 TV_PATH = '/path/to/tv/series'
 
@@ -18,17 +19,40 @@ def list(path):
     files = filter(os.path.isfile, os.listdir(path))
     return files
 
-def startPlayer(cmd):
-    global proc
-    proc = subprocess.Popen([cmd], shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, preexec_fn=os.setsid)
+def isRunning():
+   return proc is not None and proc.poll() is None
+
+def startPlayer(path):
+   global proc
+   proc = subprocess.Popen(['omxplayer', '-o', 'hdmi', path], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
+
+def stopPlayer():
+   global proc
+   if proc is None:
+      return
+   if proc.poll() is None:
+      sendKey('q')
+      try:
+         proc.wait(timeout=5)
+      except subprocess.TimeoutExpired:
+         try:
+            os.killpg(proc.pid, signal.SIGTERM)
+            proc.wait(timeout=5)
+         except (ProcessLookupError, subprocess.TimeoutExpired):
+            try:
+               os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+               pass
+            proc.wait()
+   proc = None
 
 def sendKey(key):
-   global proc
-   if not proc is None:
+   if isRunning():
       try:
-         proc.stdin.write(key)
-      except:
-         print('exception')
+         proc.stdin.write(key.encode())
+         proc.stdin.flush()
+      except (BrokenPipeError, OSError) as e:
+         print('sendKey failed: ' + str(e))
 
 @app.route('/')
 def home():
@@ -36,63 +60,59 @@ def home():
 
 @app.route('/play/<file>')
 def play(file):
-   if not file is None:
-      print ('playing: ' + file)
-      path = os.path.join(TV_PATH, file)
-      print ('path: ' + path)
-      if os.path.exists(path):
-         cmd = 'omxplayer -o hdmi ' + '"' + path + '"'
-         print ('cmd: ' + cmd)
-         sendKey('q')
-         startPlayer(cmd)
-      else:
-         print ('path ' + path + ' does not exist')
-   return render_template('main.html', list=list(TV_PATH))
+   path = os.path.join(TV_PATH, file)
+   if os.path.isfile(path):
+      print('playing: ' + path)
+      stopPlayer()
+      startPlayer(path)
+   else:
+      print('path ' + path + ' does not exist')
+   return redirect(url_for('home'))
 
 @app.route('/stop')
 def stop():
-   sendKey('q')
-   return render_template('main.html', list=list(TV_PATH))
+   stopPlayer()
+   return redirect(url_for('home'))
 
 @app.route('/volume/increase')
 def up():
    sendKey('+')
-   return render_template('main.html', list=list(TV_PATH))
+   return redirect(url_for('home'))
 
 @app.route('/volume/decrease')
 def down():
    sendKey('-')
-   return render_template('main.html', list=list(TV_PATH))
+   return redirect(url_for('home'))
 
 @app.route('/audio/previous')
 def previousAudioStream():
    sendKey('j')
-   return render_template('main.html', list=list(TV_PATH))
+   return redirect(url_for('home'))
 
 @app.route('/audio/next')
 def nextAudioStream():
    sendKey('k')
-   return render_template('main.html', list=list(TV_PATH))
+   return redirect(url_for('home'))
 
 @app.route('/subtitle/previous')
 def previousSubtitleStream():
    sendKey('n')
-   return render_template('main.html', list=list(TV_PATH))
+   return redirect(url_for('home'))
 
 @app.route('/subtitle/next')
 def nextSubtitleStream():
    sendKey('m')
-   return render_template('main.html', list=list(TV_PATH))
+   return redirect(url_for('home'))
 
 @app.route('/subtitle/show')
 def showSubtitles():
    sendKey('s')
-   return render_template('main.html', list=list(TV_PATH))
+   return redirect(url_for('home'))
 
 @app.route('/subtitle/hide')
 def hideSubtitles():
    sendKey('x')
-   return render_template('main.html', list=list(TV_PATH))
+   return redirect(url_for('home'))
 
 if __name__ == '__main__':
    app.run(host=HOST, port=PORT, debug=DEBUG)
