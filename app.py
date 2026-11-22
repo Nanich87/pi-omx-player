@@ -12,6 +12,7 @@ DEBUG = False
 TV_PATH = '/path/to/tv/series'
 
 proc = None
+current = None
 app = Flask(__name__)
 
 def list(path):
@@ -23,11 +24,13 @@ def isRunning():
    return proc is not None and proc.poll() is None
 
 def startPlayer(path):
-   global proc
+   global proc, current
+   current = os.path.basename(path)
    proc = subprocess.Popen(['omxplayer', '-o', 'hdmi', path], stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, preexec_fn=os.setsid)
 
 def stopPlayer():
-   global proc
+   global proc, current
+   current = None
    if proc is None:
       return
    if proc.poll() is None:
@@ -56,7 +59,7 @@ def sendKey(key):
 
 @app.route('/')
 def home():
-   return render_template('main.html', list=list(TV_PATH))
+   return render_template('main.html', list=list(TV_PATH), current=current if isRunning() else None)
 
 @app.route('/play/<file>')
 def play(file):
